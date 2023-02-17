@@ -5,6 +5,7 @@ import 'package:movie_app/services/bloc/cubit.dart';
 import 'package:movie_app/services/bloc/states.dart';
 import 'package:movie_app/shared/widgets.dart';
 
+
 import '../const/colors.dart';
 
 class HomeScreen extends StatelessWidget {
