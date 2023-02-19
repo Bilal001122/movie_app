@@ -8,10 +8,13 @@ import 'package:movie_app/services/bloc/cubit.dart';
 import 'package:movie_app/services/bloc/states.dart';
 import 'package:movie_app/services/cache_helper.dart';
 
+import 'services/dio_helper.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
+  DioHelper.init();
   bool? isDark = CacheHelper.getBoolean(key: 'isDark');
   runApp(MyApp(
     isDark: isDark,
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
       create: (context) {
         AppCubit cubit = AppCubit();
         cubit.changeModeTheme(fromShared: isDark);
+        cubit.getTopRatedMovies();
+        cubit.getPopularMovies();
+        cubit.getUpComingMovies();
         return cubit;
       },
       child: BlocConsumer<AppCubit, AppStates>(
@@ -40,7 +46,7 @@ class MyApp extends StatelessWidget {
             theme: Themes.kLightTheme,
             darkTheme: Themes.kDarkTheme,
             themeMode: appCubit.isDark ? ThemeMode.dark : ThemeMode.light,
-            home: AppLayout(),
+            home: const AppLayout(),
           );
         },
       ),
