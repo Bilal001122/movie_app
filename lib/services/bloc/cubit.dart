@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/screens/home_screen.dart';
+import 'package:movie_app/screens/search_screen.dart';
 import 'package:movie_app/services/bloc/states.dart';
 import 'package:movie_app/services/dio_helper.dart';
 import '../cache_helper.dart';
@@ -18,9 +19,7 @@ class AppCubit extends Cubit<AppStates> {
 
   List<Widget> screens = [
     const HomeScreen(),
-    Text(
-      'Search',
-    ),
+    const SearchScreen(),
     Text(
       'Fav',
     ),
@@ -31,6 +30,7 @@ class AppCubit extends Cubit<AppStates> {
   List<MovieModel> topRatedMovies = [];
   List<MovieModel> popularMovies = [];
   List<MovieModel> upComingMovies = [];
+  List<MovieModel> searchMovies = [];
 
   void changeModeTheme({bool? fromShared}) {
     if (fromShared != null) {
@@ -71,10 +71,10 @@ class AppCubit extends Cubit<AppStates> {
 
   void getPopularMovies() {
     DioHelper.getData(
-        url: '/movie/popular?api_key=5eef0526cc051ce2676063f75e029825',
-        query: null)
+            url: '/movie/popular?api_key=5eef0526cc051ce2676063f75e029825',
+            query: null)
         .then(
-          (value) {
+      (value) {
         value.data['results'].forEach((element) {
           popularMovies.add(
             MovieModel.fromJson(json: element),
@@ -90,10 +90,10 @@ class AppCubit extends Cubit<AppStates> {
 
   void getUpComingMovies() {
     DioHelper.getData(
-        url: '/movie/upcoming?api_key=5eef0526cc051ce2676063f75e029825',
-        query: null)
+            url: '/movie/upcoming?api_key=5eef0526cc051ce2676063f75e029825',
+            query: null)
         .then(
-          (value) {
+      (value) {
         value.data['results'].forEach((element) {
           upComingMovies.add(
             MovieModel.fromJson(json: element),
@@ -104,6 +104,27 @@ class AppCubit extends Cubit<AppStates> {
     ).catchError((onError) {
       print(onError.toString());
       emit(AppGetUpComingMoviesErrorState());
+    });
+  }
+
+  void getSearchMovie({required String str}) {
+    searchMovies = [];
+    DioHelper.getData(
+        url: '/search/movie?api_key=5eef0526cc051ce2676063f75e029825',
+        query: {
+          'query': str,
+        }).then(
+      (value) {
+        value.data['results'].forEach((element) {
+          searchMovies.add(
+            MovieModel.fromJson(json: element),
+          );
+        });
+        emit(AppGetSearchMoviesSuccessState());
+      },
+    ).catchError((onError) {
+      print(onError.toString());
+      emit(AppGetSearchMoviesErrorState());
     });
   }
 }

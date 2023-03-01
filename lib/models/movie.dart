@@ -8,8 +8,9 @@ class MovieModel {
   late final dynamic mediaType;
   late final dynamic releaseDate;
   late final dynamic voteAverage;
-    dynamic name;
-    dynamic originalName;
+  late final dynamic name;
+  late final dynamic originalName;
+  late final dynamic firstAirDate;
 
   MovieModel.fromJson({required Map<String, dynamic> json}) {
     id = json['id'];
@@ -23,5 +24,6 @@ class MovieModel {
     voteAverage = json['vote_average'];
     name = json['name'];
     originalName = json['original_name'];
+    firstAirDate = json['first_air_date'];
   }
 }

@@ -17,3 +17,7 @@ class AppGetPopularMoviesErrorState extends AppStates {}
 class AppGetUpComingMoviesSuccessState extends AppStates {}
 
 class AppGetUpComingMoviesErrorState extends AppStates {}
+
+class AppGetSearchMoviesSuccessState extends AppStates {}
+
+class AppGetSearchMoviesErrorState extends AppStates {}

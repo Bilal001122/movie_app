@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/screens/movie_details_screen.dart';
+import 'package:movie_app/screens/see_more_screen.dart';
 import 'package:movie_app/services/bloc/cubit.dart';
 import 'package:movie_app/services/bloc/states.dart';
 
@@ -66,18 +68,20 @@ class CustomButton extends StatelessWidget {
 }
 
 class InfoRow extends StatelessWidget {
+  final List<MovieModel> movies;
   final String label;
   final String textButton;
   final Color colorLabel;
   final Color colorTextButton;
 
-  const InfoRow(
-      {Key? key,
-      required this.label,
-      required this.textButton,
-      required this.colorLabel,
-      required this.colorTextButton})
-      : super(key: key);
+  const InfoRow({
+    Key? key,
+    required this.label,
+    required this.textButton,
+    required this.colorLabel,
+    required this.colorTextButton,
+    required this.movies,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +97,14 @@ class InfoRow extends StatelessWidget {
         ),
         const Spacer(),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SeeMoreScreen(movies: movies),
+              ),
+            );
+          },
           style: TextButton.styleFrom(
             foregroundColor: kWhiteColor,
           ),
@@ -123,60 +134,69 @@ class MovieWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 200,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Stack(
-                children: [
-                  Container(
-                    height: 200,
-                    decoration: const BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        blurRadius: 5,
-                        spreadRadius: 5,
-                        offset: Offset(0, 2),
-                      )
-                    ]),
-                    child: Image.network(
-                      movie.posterPath ?? '',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: kDarkColor,
-                            blurRadius: 20,
-                          )
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: kPrimaryColor,
-                            size: 20,
-                          ),
-                          Text(
-                            movie.voteAverage.toString(),
-                            style: const TextStyle(
-                              color: kWhiteColor,
-                              fontWeight: FontWeight.w700,
+          Expanded(
+            child: SizedBox(
+              height: 200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 200,
+                      decoration: const BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          spreadRadius: 5,
+                          offset: Offset(0, 2),
+                        )
+                      ]),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieDetailScreen(movie: movie),
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Image.network(
+                          movie.posterPath ?? '',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: kDarkColor,
+                              blurRadius: 20,
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: kPrimaryColor,
+                              size: 20,
+                            ),
+                            Text(
+                              movie.voteAverage.toString(),
+                              style: const TextStyle(
+                                color: kWhiteColor,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -188,7 +208,7 @@ class MovieWidget extends StatelessWidget {
               movie.originalTitle ??
                   movie.title ??
                   movie.name ??
-                  movie.originalName,
+                  movie.originalName ?? '',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -206,8 +226,11 @@ class RowForHome extends StatelessWidget {
   final List<MovieModel> movies;
   final String textLabelCategorie;
 
-  const RowForHome(
-      {super.key, required this.movies, required this.textLabelCategorie});
+  const RowForHome({
+    super.key,
+    required this.movies,
+    required this.textLabelCategorie,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -221,6 +244,7 @@ class RowForHome extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: InfoRow(
+                  movies: movies,
                   label: textLabelCategorie,
                   textButton: 'See more',
                   colorTextButton: kPrimaryColor,
