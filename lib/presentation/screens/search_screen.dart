@@ -24,6 +24,7 @@ class SearchScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     TextFormField(
                       onFieldSubmitted: (value) {
@@ -50,24 +51,34 @@ class SearchScreen extends StatelessWidget {
                         hintText: 'Search',
                       ),
                     ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return MovieWidgetForSearch(
-                          movie: cubit.searchMovies[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 20,
-                        );
-                      },
-                      itemCount: cubit.searchMovies.isNotEmpty
-                          ? cubit.searchMovies.length
-                          : 0,
-                    ),
+                    if (state is SearchGetSearchMoviesLoadingState)
+                      const SizedBox(
+                        height: 300,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      )
+                    else
+                      ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return MovieWidgetForSearch(
+                            movie: cubit.searchMovies[index],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 20,
+                          );
+                        },
+                        itemCount: cubit.searchMovies.isNotEmpty
+                            ? cubit.searchMovies.length
+                            : 0,
+                      ),
                   ],
                 ),
               ),

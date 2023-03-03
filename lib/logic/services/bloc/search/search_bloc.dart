@@ -12,6 +12,7 @@ class SearchCubit extends Cubit<SearchStates> {
   List<MovieModel> searchMovies = [];
 
   void getSearchMovie({required String str}) {
+    emit(SearchGetSearchMoviesLoadingState());
     searchMovies = [];
     DioHelper.getData(
         url: '/search/movie?api_key=5eef0526cc051ce2676063f75e029825',

@@ -70,6 +70,7 @@ class MovieDetailScreen extends StatelessWidget {
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const Text('  |  '),
@@ -81,21 +82,23 @@ class MovieDetailScreen extends StatelessWidget {
                         ),
                       ),
                       const Text('  |  '),
-                      Row(
-                        children: [
-                          Text(
-                            '${movie.voteAverage.toInt().toString()} ',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              '${movie.voteAverage.toInt().toString()} ',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
                             ),
-                          ),
-                          const Icon(
-                            Icons.star,
-                            size: 18,
-                            color: kPrimaryColor,
-                          ),
-                        ],
+                            const Icon(
+                              Icons.star,
+                              size: 18,
+                              color: kPrimaryColor,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
