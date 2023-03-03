@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/services/bloc/cubit.dart';
-import 'package:movie_app/services/bloc/states.dart';
-import 'package:movie_app/shared/widgets.dart';
-import '../const/colors.dart';
+import 'package:movie_app/const/colors.dart';
+import 'package:movie_app/logic/services/bloc/home/home_bloc.dart';
+import 'package:movie_app/logic/services/bloc/home/home_states.dart';
+import 'package:movie_app/presentation/shared/widgets.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
+    return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        AppCubit appCubit = AppCubit.get(context);
+        HomeCubit cubit = HomeCubit.get(context);
         return CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               leading: IconButton(
                 onPressed: () {
-                  appCubit.changeModeTheme();
+                  cubit.changeModeTheme();
                 },
                 icon: Icon(
-                  appCubit.isDark ? Icons.sunny : Icons.nightlight_round,
-                  color: appCubit.isDark ? kPrimaryColor : kDarkColor,
+                  cubit.isDark ? Icons.sunny : Icons.nightlight_round,
+                  color: cubit.isDark ? kPrimaryColor : kDarkColor,
                 ),
               ),
             ),
@@ -61,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: appCubit.isDark ? kDarkColor : kWhiteColor,
+                            color: cubit.isDark ? kDarkColor : kWhiteColor,
                             offset: const Offset(0, 1),
                             blurRadius: 100,
                             spreadRadius: 20,
@@ -115,9 +116,9 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            RowForHome(textLabelCategorie: 'Top Rated',movies: appCubit.topRatedMovies,),
-            RowForHome(textLabelCategorie: 'Popular',movies: appCubit.popularMovies,),
-            RowForHome(textLabelCategorie: 'Up Coming',movies: appCubit.upComingMovies,),
+            RowForHome(textLabelCategorie: 'Top Rated',movies: cubit.topRatedMovies,),
+            RowForHome(textLabelCategorie: 'Popular',movies: cubit.popularMovies,),
+            RowForHome(textLabelCategorie: 'Up Coming',movies: cubit.upComingMovies,),
           ],
         );
       },

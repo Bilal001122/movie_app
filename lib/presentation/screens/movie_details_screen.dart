@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/const/colors.dart';
-import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/logic/models/movie.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieModel movie;
@@ -17,17 +17,20 @@ class MovieDetailScreen extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  SizedBox(
-                    height: 400,
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
-                      child: Image.network(
-                        movie.posterPath,
-                        fit: BoxFit.fitWidth,
+                  Hero(
+                    tag:  Text('hero${movie.posterPath}'),
+                    child: SizedBox(
+                      height: 400,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
+                        ),
+                        child: Image.network(
+                          movie.posterPath,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
                     ),
                   ),
@@ -81,7 +84,7 @@ class MovieDetailScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${movie.voteAverage.toString()} ',
+                            '${movie.voteAverage.toInt().toString()} ',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
@@ -97,7 +100,10 @@ class MovieDetailScreen extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15,),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 15,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

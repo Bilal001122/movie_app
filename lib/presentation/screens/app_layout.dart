@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/const/colors.dart';
-import 'package:movie_app/services/bloc/cubit.dart';
-import '../services/bloc/states.dart';
+import 'package:movie_app/logic/services/bloc/app_layout/app_layout_bloc.dart';
+import 'package:movie_app/logic/services/bloc/app_layout/app_layout_states.dart';
 
 class AppLayout extends StatelessWidget {
   const AppLayout({Key? key}) : super(key: key);
@@ -11,10 +9,15 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocConsumer<AppCubit, AppStates>(
+      child: BlocConsumer<AppLayoutCubit, AppLayoutStates>(
         listener: (context, state) {},
+        buildWhen: (previous, current) {
+          return (previous != current) &&
+              (current is AppLayoutBottomNavBarChangedState ||
+                  current is AppLayoutBottomNavBarChangedState);
+        },
         builder: (context, state) {
-          AppCubit appCubit = AppCubit.get(context);
+          AppLayoutCubit appCubit = AppLayoutCubit.get(context);
           return Scaffold(
             body: appCubit.screens[appCubit.currentIndex],
             bottomNavigationBar: BottomNavigationBar(

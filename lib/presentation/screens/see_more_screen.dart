@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/models/movie.dart';
-import 'package:movie_app/shared/widgets.dart';
+import 'package:movie_app/logic/models/movie.dart';
+import 'package:movie_app/presentation/shared/widgets.dart';
+
 
 class SeeMoreScreen extends StatelessWidget {
   final List<MovieModel> movies;

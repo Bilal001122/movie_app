@@ -18,7 +18,7 @@ class MovieModel {
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
     overview = json['overview'];
-    posterPath = 'https://image.tmdb.org/t/p/original' + json['poster_path'];
+    posterPath = 'https://image.tmdb.org/t/p/original${json['poster_path']}';
     mediaType = json['media_type'];
     releaseDate = json['release_date'];
     voteAverage = json['vote_average'];
