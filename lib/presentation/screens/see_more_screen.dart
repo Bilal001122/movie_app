@@ -5,8 +5,8 @@ import 'package:movie_app/presentation/shared/widgets.dart';
 
 class SeeMoreScreen extends StatelessWidget {
   final List<MovieModel> movies;
-
-  const SeeMoreScreen({super.key, required this.movies});
+  final String textLabelCategorie;
+  const SeeMoreScreen({super.key, required this.movies, required this.textLabelCategorie});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class SeeMoreScreen extends StatelessWidget {
             children: List.generate(movies.length, (index) {
               return MovieWidget(
                 movie: movies[index],
+                textLabelCategorie: textLabelCategorie,
               );
             }),
           ),

@@ -35,6 +35,7 @@ class AppRouter {
           builder: (context) {
             return MovieDetailScreen(
               movie: args['movie'],
+              textLabelCategorie: args['textLabelCategorie'],
             );
           },
         );
@@ -43,6 +44,7 @@ class AppRouter {
           builder: (context) {
             return SeeMoreScreen(
               movies: args['movies'],
+              textLabelCategorie: args['textLabelCategorie'],
             );
           },
         );

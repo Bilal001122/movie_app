@@ -21,13 +21,14 @@ Future<void> main() async {
   runApp(MyApp(
     isDark: isDark,
     appRouter: appRouter,
-  ));
+  ),);
 }
 
 class MyApp extends StatelessWidget {
   final isDark;
   final AppRouter appRouter;
-  const MyApp({super.key, this.isDark , required this.appRouter});
+
+  const MyApp({super.key, this.isDark, required this.appRouter});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
           create: (context) => AppLayoutCubit(),
         ),
         BlocProvider<HomeCubit>(
-          create: (context) => HomeCubit()
+          create: (context) =>
+          HomeCubit()
             ..changeModeTheme(fromShared: isDark)
             ..getTopRatedMovies()
             ..getUpComingMovies()

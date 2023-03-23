@@ -5,7 +5,7 @@ import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/models/movie.dart';
 import 'package:movie_app/logic/services/bloc/home/home_bloc.dart';
 import 'package:movie_app/logic/services/bloc/home/home_states.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
@@ -71,6 +71,7 @@ class InfoRow extends StatelessWidget {
   final String textButton;
   final Color colorLabel;
   final Color colorTextButton;
+  final String textLabelCategorie;
 
   const InfoRow({
     Key? key,
@@ -79,6 +80,7 @@ class InfoRow extends StatelessWidget {
     required this.colorLabel,
     required this.colorTextButton,
     required this.movies,
+    required this.textLabelCategorie,
   }) : super(key: key);
 
   @override
@@ -98,6 +100,7 @@ class InfoRow extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pushNamed('/see_more', arguments: {
               'movies': movies,
+              'textLabelCategorie': textLabelCategorie,
             });
           },
           style: TextButton.styleFrom(
@@ -118,8 +121,10 @@ class InfoRow extends StatelessWidget {
 
 class MovieWidget extends StatelessWidget {
   final MovieModel movie;
+  final String textLabelCategorie;
 
-  const MovieWidget({super.key, required this.movie});
+  const MovieWidget(
+      {super.key, required this.movie, required this.textLabelCategorie});
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +142,9 @@ class MovieWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Hero(
-                      tag: Text('hero${movie.posterPath}'),
+                      tag: 'hero${movie.posterPath + textLabelCategorie}',
                       child: Container(
-                        height: 200,
+                        height: double.infinity,
                         decoration: const BoxDecoration(boxShadow: [
                           BoxShadow(
                             blurRadius: 5,
@@ -149,11 +154,15 @@ class MovieWidget extends StatelessWidget {
                         ]),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/movie_detail', arguments: {'movie':movie});
+                            Navigator.of(context).pushNamed('/movie_detail',
+                                arguments: {
+                                  'movie': movie,
+                                  'textLabelCategorie': textLabelCategorie
+                                });
                           },
-                          child: Image.network(
-                            movie.posterPath ?? '',
+                          child: CachedNetworkImage(
+                            key: UniqueKey(),
+                            imageUrl: movie.posterPath ?? '',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -243,6 +252,7 @@ class RowForHome extends StatelessWidget {
                   label: textLabelCategorie,
                   textButton: 'See more',
                   colorTextButton: kPrimaryColor,
+                  textLabelCategorie: textLabelCategorie,
                   colorLabel: cubit.isDark ? kWhiteColor : kDarkColor,
                 ),
               ),
@@ -256,6 +266,7 @@ class RowForHome extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return MovieWidget(
                         movie: movies[index],
+                        textLabelCategorie: textLabelCategorie,
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -314,11 +325,16 @@ class MovieWidgetForSearch extends StatelessWidget {
                                 Navigator.of(context)
                                     .pushNamed('/movie_detail', arguments: {
                                   'movie': movie,
+                                  'textLabelCategorie': 'Top Rated',
                                 });
                               },
-                              child: Image.network(
-                                movie.posterPath ?? '',
-                                fit: BoxFit.cover,
+                              child: Hero(
+                                tag: 'hero${movie.posterPath + 'Top Rated'}',
+                                child: CachedNetworkImage(
+                                  key: UniqueKey(),
+                                  imageUrl: movie.posterPath ?? '',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
@@ -395,7 +411,7 @@ class MovieWidgetForSearch extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      movie.overview,
+                      movie.overview!,
                       maxLines: 7,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -15,15 +15,18 @@ class SearchCubit extends Cubit<SearchStates> {
     emit(SearchGetSearchMoviesLoadingState());
     searchMovies = [];
     DioHelper.getData(
-        url: '/search/movie?api_key=5eef0526cc051ce2676063f75e029825',
+        url: 'search/multi?api_key=5eef0526cc051ce2676063f75e029825&language=en-US&include_adult=false',
         query: {
           'query': str,
         }).then(
-          (value) {
+      (value) {
         value.data['results'].forEach((element) {
-          searchMovies.add(
-            MovieModel.fromJson(json: element),
-          );
+          if (element['media_type'] == 'movie' ||
+              element['media_type'] == 'tv') {
+            searchMovies.add(
+              MovieModel.fromJson(json: element),
+            );
+          }
         });
         emit(SearchGetSearchMoviesSuccessState());
       },

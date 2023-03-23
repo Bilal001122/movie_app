@@ -1,11 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/models/movie.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieModel movie;
+  final String textLabelCategorie;
 
-  const MovieDetailScreen({Key? key, required this.movie}) : super(key: key);
+  const MovieDetailScreen(
+      {Key? key, required this.movie, required this.textLabelCategorie})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +18,35 @@ class MovieDetailScreen extends StatelessWidget {
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Stack(
                 children: [
                   Hero(
-                    tag:  Text('hero${movie.posterPath}'),
+                    tag: 'hero${movie.posterPath + textLabelCategorie}',
+                    flightShuttleBuilder: (flightContext, animation,
+                        flightDirection, fromHeroContext, toHeroContext) {
+                      switch (flightDirection) {
+                        case HeroFlightDirection.push:
+                          return ScaleTransition(
+                            scale: animation.drive(
+                              Tween<double>(begin: 0.0, end: 1).chain(
+                                CurveTween(curve: Curves.bounceInOut),
+                              ),
+                            ),
+                            child: toHeroContext.widget,
+                          );
+                        case HeroFlightDirection.pop:
+                          return ScaleTransition(
+                            scale: animation.drive(
+                              Tween<double>(begin: 1, end: 0.0).chain(
+                                CurveTween(curve: Curves.bounceInOut),
+                              ),
+                            ),
+                            child: fromHeroContext.widget,
+                          );
+                      }
+                    },
                     child: SizedBox(
                       height: 400,
                       width: double.infinity,
@@ -27,9 +55,10 @@ class MovieDetailScreen extends StatelessWidget {
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50),
                         ),
-                        child: Image.network(
-                          movie.posterPath,
-                          fit: BoxFit.fitWidth,
+                        child: CachedNetworkImage(
+                          key: UniqueKey(),
+                          imageUrl: movie.posterPath ?? '',
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -45,10 +74,13 @@ class MovieDetailScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: kPrimaryColor,
                       ),
-                      child: const Icon(
-                        Icons.play_arrow,
-                        color: kWhiteColor,
-                        size: 40,
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.play_arrow,
+                          color: kWhiteColor,
+                          size: 40,
+                        ),
                       ),
                     ),
                   ),
@@ -58,15 +90,27 @@ class MovieDetailScreen extends StatelessWidget {
                 height: 10,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        movie.title ??
-                            movie.originalTitle ??
-                            movie.name ??
-                            movie.originalName,
+                        movie.title != null && movie.title!.length > 25
+                            ? movie.title!.substring(0, 25)
+                            : movie.originalTitle != null &&
+                                    movie.originalTitle!.length > 25
+                                ? movie.originalTitle!.substring(0, 25)
+                                : movie.name != null && movie.name!.length > 25
+                                    ? movie.name!.substring(0, 25)
+                                    : movie.originalName != null &&
+                                            movie.originalName!.length > 25
+                                        ? movie.originalName!.substring(0, 25)
+                                        : movie.title ??
+                                            movie.originalTitle ??
+                                            movie.name ??
+                                            movie.originalName ??
+                                            '',
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -82,23 +126,21 @@ class MovieDetailScreen extends StatelessWidget {
                         ),
                       ),
                       const Text('  |  '),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Text(
-                              '${movie.voteAverage.toInt().toString()} ',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                              ),
+                      Row(
+                        children: [
+                          Text(
+                            '${movie.voteAverage.toInt().toString()} ',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
                             ),
-                            const Icon(
-                              Icons.star,
-                              size: 18,
-                              color: kPrimaryColor,
-                            ),
-                          ],
-                        ),
+                          ),
+                          const Icon(
+                            Icons.star,
+                            size: 18,
+                            color: kPrimaryColor,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -118,7 +160,7 @@ class MovieDetailScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          movie.overview,
+                          movie.overview!,
                         ),
                       ],
                     ),

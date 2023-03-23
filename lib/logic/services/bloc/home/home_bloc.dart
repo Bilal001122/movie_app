@@ -59,6 +59,7 @@ class HomeCubit extends Cubit<HomeStates> {
           );
         });
         emit(HomeGetPopularMoviesSuccessState());
+        print(popularMovies[0].posterPath);
       },
     ).catchError((onError) {
       print(onError.toString());

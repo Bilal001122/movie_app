@@ -1,15 +1,15 @@
 class MovieModel {
   late final dynamic id;
-  late final dynamic title;
+  late final String? title;
   late final dynamic originalLanguage;
-  late final dynamic originalTitle;
-  late final dynamic overview;
+  late final String? originalTitle;
+  late final String? overview;
   late final dynamic posterPath;
   late final dynamic mediaType;
   late final dynamic releaseDate;
   late final dynamic voteAverage;
-  late final dynamic name;
-  late final dynamic originalName;
+  late final String? name;
+  late final String? originalName;
   late final dynamic firstAirDate;
 
   MovieModel.fromJson({required Map<String, dynamic> json}) {
