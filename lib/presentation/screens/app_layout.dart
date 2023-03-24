@@ -39,9 +39,9 @@ class AppLayout extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Wishlist',
+                  label: 'Actors',
                   icon: Icon(
-                    Icons.bookmark,
+                    Icons.recent_actors,
                   ),
                 ),
                 BottomNavigationBarItem(

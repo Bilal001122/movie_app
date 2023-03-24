@@ -8,6 +8,7 @@ import 'package:movie_app/logic/services/bloc/search/search_bloc.dart';
 import 'package:movie_app/logic/services/cache_helper.dart';
 import 'package:movie_app/logic/services/dio_helper.dart';
 import 'package:movie_app/presentation/router/app_router.dart';
+import 'logic/services/bloc/actors/actors_cubit.dart';
 import 'logic/services/bloc/home/home_bloc.dart';
 import 'presentation/screens/app_layout.dart';
 
@@ -18,10 +19,12 @@ Future<void> main() async {
   DioHelper.init();
   bool? isDark = CacheHelper.getBoolean(key: 'isDark');
   AppRouter appRouter = AppRouter();
-  runApp(MyApp(
-    isDark: isDark,
-    appRouter: appRouter,
-  ),);
+  runApp(
+    MyApp(
+      isDark: isDark,
+      appRouter: appRouter,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -38,8 +41,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AppLayoutCubit(),
         ),
         BlocProvider<HomeCubit>(
-          create: (context) =>
-          HomeCubit()
+          create: (context) => HomeCubit()
             ..changeModeTheme(fromShared: isDark)
             ..getTopRatedMovies()
             ..getUpComingMovies()
@@ -47,6 +49,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),
+        ),
+        BlocProvider<ActorsCubit>(
+          create: (context) => ActorsCubit()..getActors(),
         ),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(

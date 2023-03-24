@@ -12,6 +12,21 @@ class MovieModel {
   late final String? originalName;
   late final dynamic firstAirDate;
 
+  MovieModel({
+    required this.id,
+    required this.title,
+    required this.originalLanguage,
+    required this.originalTitle,
+    required this.overview,
+    required this.posterPath,
+    required this.mediaType,
+    required this.releaseDate,
+    required this.voteAverage,
+    required this.name,
+    required this.originalName,
+    required this.firstAirDate,
+  });
+
   MovieModel.fromJson({required Map<String, dynamic> json}) {
     id = json['id'];
     title = json['title'];
