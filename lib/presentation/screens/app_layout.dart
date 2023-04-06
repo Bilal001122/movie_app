@@ -45,9 +45,9 @@ class AppLayout extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Profile',
+                  label: 'Favorites',
                   icon: Icon(
-                    Icons.person,
+                    Icons.favorite,
                   ),
                 ),
               ],

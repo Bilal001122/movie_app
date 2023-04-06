@@ -188,7 +188,7 @@ class MovieWidget extends StatelessWidget {
                               size: 20,
                             ),
                             Text(
-                              movie.voteAverage.toString(),
+                             movie.voteAverage.toString(),
                               style: const TextStyle(
                                 color: kWhiteColor,
                                 fontWeight: FontWeight.w700,
@@ -358,7 +358,7 @@ class MovieWidgetForSearch extends StatelessWidget {
                                     size: 20,
                                   ),
                                   Text(
-                                    movie.voteAverage.toInt().toString(),
+                                    double.parse(movie.voteAverage).toString(),
                                     style: const TextStyle(
                                       color: kWhiteColor,
                                       fontWeight: FontWeight.w700,
@@ -386,11 +386,15 @@ class MovieWidgetForSearch extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie.originalTitle ??
-                        movie.title ??
-                        movie.name ??
-                        movie.originalName ??
-                        '',
+                    movie.originalTitle == null
+                        ? movie.title == 'null'
+                            ? movie.name == 'null'
+                                ? movie.originalName == null
+                                    ? ''
+                                    : movie.originalName!
+                                : movie.name!
+                            : movie.title!
+                        : movie.originalTitle!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(

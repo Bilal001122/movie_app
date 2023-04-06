@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/logic/services/bloc/app_layout/app_layout_states.dart';
 import 'package:movie_app/logic/services/cache_helper.dart';
 import 'package:movie_app/presentation/screens/actors_screen.dart';
+import 'package:movie_app/presentation/screens/favorites_screen.dart';
 import 'package:movie_app/presentation/screens/home_screen.dart';
 import 'package:movie_app/presentation/screens/search_screen.dart';
 
@@ -19,9 +20,7 @@ class AppLayoutCubit extends Cubit<AppLayoutStates>{
     const HomeScreen(),
     const SearchScreen(),
     const ActorsScreen(),
-    const Text(
-      'Profile',
-    ),
+    const FavoritesScreen(),
   ];
 
 

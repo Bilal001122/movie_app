@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/logic/models/movie.dart';
 import 'package:movie_app/presentation/screens/app_layout.dart';
 import 'package:movie_app/presentation/screens/home_screen.dart';
 import 'package:movie_app/presentation/screens/movie_details_screen.dart';

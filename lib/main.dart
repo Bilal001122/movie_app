@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/const/themes.dart';
 import 'package:movie_app/logic/services/bloc/app_layout/app_layout_bloc.dart';
 import 'package:movie_app/logic/services/bloc/bloc_observer.dart';
+import 'package:movie_app/logic/services/bloc/favorites/favorites_cubit.dart';
 import 'package:movie_app/logic/services/bloc/home/home_states.dart';
 import 'package:movie_app/logic/services/bloc/search/search_bloc.dart';
 import 'package:movie_app/logic/services/cache_helper.dart';
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ActorsCubit>(
           create: (context) => ActorsCubit()..getActors(),
+        ),
+        BlocProvider<FavoritesCubit>(
+          create: (context) => FavoritesCubit()..getFavorites(),
         ),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
