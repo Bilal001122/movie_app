@@ -6,14 +6,20 @@ import 'package:movie_app/logic/models/movie.dart';
 import 'package:movie_app/logic/services/bloc/home/home_bloc.dart';
 import 'package:movie_app/logic/services/bloc/home/home_states.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
   final IconData? icon;
   final Color color;
+  final VoidCallback? onPressed;
 
   const CustomButton(
-      {super.key, required this.label, required this.color, this.icon});
+      {super.key,
+      required this.label,
+      required this.color,
+      this.icon,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class CustomButton extends StatelessWidget {
       width: 150,
       height: 50,
       child: TextButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: color,
           foregroundColor: kWhiteColor,
@@ -92,7 +98,7 @@ class InfoRow extends StatelessWidget {
           style: TextStyle(
             fontSize: 18,
             color: colorLabel,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const Spacer(),
@@ -188,7 +194,7 @@ class MovieWidget extends StatelessWidget {
                               size: 20,
                             ),
                             Text(
-                             movie.voteAverage.toString(),
+                              movie.voteAverage.toString(),
                               style: const TextStyle(
                                 color: kWhiteColor,
                                 fontWeight: FontWeight.w700,
@@ -208,9 +214,9 @@ class MovieWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              movie.originalTitle ??
-                  movie.title ??
+              movie.title ??
                   movie.name ??
+                  movie.originalTitle ??
                   movie.originalName ??
                   '',
               overflow: TextOverflow.ellipsis,
@@ -358,7 +364,11 @@ class MovieWidgetForSearch extends StatelessWidget {
                                     size: 20,
                                   ),
                                   Text(
-                                    double.parse(movie.voteAverage).toString(),
+                                    movie.voteAverage is num
+                                        ? movie.voteAverage.toStringAsFixed(1)
+                                        : double.parse(
+                                            movie.voteAverage,
+                                          ).toString(),
                                     style: const TextStyle(
                                       color: kWhiteColor,
                                       fontWeight: FontWeight.w700,
@@ -386,15 +396,17 @@ class MovieWidgetForSearch extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie.originalTitle == null
-                        ? movie.title == 'null'
-                            ? movie.name == 'null'
-                                ? movie.originalName == null
-                                    ? ''
-                                    : movie.originalName!
-                                : movie.name!
-                            : movie.title!
-                        : movie.originalTitle!,
+                    movie.title != null && movie.title != 'null'
+                        ? movie.title!
+                        : movie.originalTitle != null &&
+                                movie.originalTitle != 'null'
+                            ? movie.originalTitle!
+                            : movie.name != null && movie.name != 'null'
+                                ? movie.name!
+                                : movie.originalName != null &&
+                                        movie.originalName != 'null'
+                                    ? movie.originalName!
+                                    : '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(

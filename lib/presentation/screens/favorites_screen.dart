@@ -10,7 +10,6 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FavoritesCubit, FavoritesState>(
-
       listener: (context, state) {
       },
       builder: (context, state) {
@@ -20,22 +19,37 @@ class FavoritesScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 12),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Dismissible(
-                      onDismissed: (direction) {
-                        favoritesCubit.deleteFromFavorites(favoritesCubit.favorites[index]);
-                      },
-                      key: UniqueKey(),
-                      child: MovieWidgetForSearch(
-                        movie: favoritesCubit.favorites[index],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 12),
+                        child: Text(
+                          'My Favorites',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 15,
-                    ),
-                    itemCount: favoritesCubit.favorites.length,
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => Dismissible(
+                          onDismissed: (direction) {
+                            favoritesCubit.deleteFromFavorites(favoritesCubit.favorites[index]);
+                          },
+                          key: UniqueKey(),
+                          child: MovieWidgetForSearch(
+                            movie: favoritesCubit.favorites[index],
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 15,
+                        ),
+                        itemCount: favoritesCubit.favorites.length,
+                      ),
+                    ],
                   ),
                 ),
               )

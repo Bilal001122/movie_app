@@ -23,20 +23,7 @@ class Themes {
       type: BottomNavigationBarType.fixed,
 
     ),
-    textTheme: TextTheme(
-      bodyLarge: GoogleFonts.poppins(),
-      bodyMedium: GoogleFonts.poppins(),
-      bodySmall: GoogleFonts.poppins(),
-      displayLarge: GoogleFonts.poppins(),
-      displayMedium: GoogleFonts.poppins(),
-      displaySmall: GoogleFonts.poppins(),
-      labelLarge: GoogleFonts.poppins(),
-      labelMedium: GoogleFonts.poppins(),
-      labelSmall: GoogleFonts.poppins(),
-      titleLarge: GoogleFonts.poppins(),
-      titleMedium: GoogleFonts.poppins(),
-      titleSmall: GoogleFonts.poppins(),
-    ),
+    fontFamily: 'Poppins',
   );
 
   static final ThemeData kDarkTheme = ThemeData(
@@ -57,19 +44,6 @@ class Themes {
       selectedItemColor: kPrimaryColor,
       type: BottomNavigationBarType.fixed,
     ),
-    textTheme: TextTheme(
-      bodyLarge: GoogleFonts.poppins(),
-      bodyMedium: GoogleFonts.poppins(),
-      bodySmall: GoogleFonts.poppins(),
-      displayLarge: GoogleFonts.poppins(),
-      displayMedium: GoogleFonts.poppins(),
-      displaySmall: GoogleFonts.poppins(),
-      labelLarge: GoogleFonts.poppins(),
-      labelMedium: GoogleFonts.poppins(),
-      labelSmall: GoogleFonts.poppins(),
-      titleLarge: GoogleFonts.poppins(),
-      titleMedium: GoogleFonts.poppins(),
-      titleSmall: GoogleFonts.poppins(),
-    ),
+    fontFamily: 'Poppins',
   );
 }

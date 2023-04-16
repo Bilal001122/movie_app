@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/models/movie.dart';
 import 'package:movie_app/presentation/shared/widgets.dart';
 
-import '../../logic/models/ActorModel.dart';
+import '../../logic/models/actor_model.dart';
 
 class ActorDetails extends StatelessWidget {
   final ActorModel actor;
@@ -22,19 +23,22 @@ class ActorDetails extends StatelessWidget {
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
-              child: CachedNetworkImage(
-                imageUrl: actor.profilePath!,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+              child: Hero(
+                tag: actor.name!,
+                child: CachedNetworkImage(
+                  imageUrl: actor.profilePath!,
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 350,
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 300,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,7 +49,8 @@ class ActorDetails extends StatelessWidget {
                     'Name :',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
+                      color: kPrimaryColor,
                     ),
                   ),
                   const SizedBox(
@@ -64,7 +69,8 @@ class ActorDetails extends StatelessWidget {
                     'Known For :',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
+                      color: kPrimaryColor,
                     ),
                   ),
                   GridView.builder(

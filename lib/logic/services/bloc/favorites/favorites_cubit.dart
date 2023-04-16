@@ -16,9 +16,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   void getFavorites() async {
     try {
-      print('wewe');
       List<Map<String, dynamic>> map = await DataBase.getFromDB();
-      print('hehehe');
       favorites = map.map(
         (e) {
           MovieModel movieModel = MovieModel.fromJson(json: e);
@@ -48,6 +46,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       emit(AddToFavoritesSuccess());
       getFavorites();
     } catch (e) {
+      print(e.toString());
       emit(AddToFavoritesError());
     }
   }
@@ -93,7 +92,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       if (list.contains(movie.name) == false &&
           list.contains(movie.title) == false) {
         await addToFavorites(movie);
-        print('i am her \n\n\n');
         color = Colors.red;
         emit(ChangeColorSuccess());
       }

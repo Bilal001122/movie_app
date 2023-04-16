@@ -38,7 +38,6 @@ class HomeCubit extends Cubit<HomeStates> {
             MovieModel.fromJson(json: element),
           );
         });
-        print(topRatedMovies[0].overview);
         emit(HomeGetTrendingMoviesSuccessState());
       },
     ).catchError((onError) {
@@ -59,7 +58,6 @@ class HomeCubit extends Cubit<HomeStates> {
           );
         });
         emit(HomeGetPopularMoviesSuccessState());
-        print(popularMovies[0].posterPath);
       },
     ).catchError((onError) {
       print(onError.toString());
@@ -85,5 +83,4 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(HomeGetUpComingMoviesErrorState());
     });
   }
-
 }

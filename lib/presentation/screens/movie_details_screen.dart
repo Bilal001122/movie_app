@@ -156,26 +156,35 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
                         children: [
                           Text(
                             widget.movie.title != null &&
+                                    widget.movie.title != 'null' &&
                                     widget.movie.title!.length > 25
                                 ? widget.movie.title!.substring(0, 25)
                                 : widget.movie.originalTitle != null &&
+                                        widget.movie.originalTitle != 'null' &&
                                         widget.movie.originalTitle!.length > 25
                                     ? widget.movie.originalTitle!
                                         .substring(0, 25)
                                     : widget.movie.name != null &&
+                                            widget.movie.name != 'null' &&
                                             widget.movie.name!.length > 25
                                         ? widget.movie.name!.substring(0, 25)
                                         : widget.movie.originalName != null &&
+                                                widget.movie.originalName !=
+                                                    'null' &&
                                                 widget.movie.originalName!
                                                         .length >
                                                     25
                                             ? widget.movie.originalName!
                                                 .substring(0, 25)
-                                            : widget.movie.title ??
-                                                widget.movie.originalTitle ??
-                                                widget.movie.name ??
-                                                widget.movie.originalName ??
-                                                '',
+                                            : widget.movie.title != null &&
+                                                    widget.movie.title != 'null'
+                                                ? widget.movie.title! : widget.movie.originalTitle != null &&
+                                                        widget.movie.originalTitle != 'null'
+                                                    ? widget.movie.originalTitle! : widget.movie.name != null &&
+                                                            widget.movie.name != 'null'
+                                                        ? widget.movie.name! : widget.movie.originalName != null &&
+                                                                widget.movie.originalName != 'null'
+                                                            ? widget.movie.originalName! : '',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
@@ -184,8 +193,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
                           ),
                           const Text('  |  '),
                           Text(
-                            widget.movie.releaseDate ??
-                                widget.movie.firstAirDate,
+                            widget.movie.releaseDate != null &&
+                                    widget.movie.releaseDate != 'null'
+                                ? widget.movie.releaseDate!
+                                : widget.movie.firstAirDate != null &&
+                                        widget.movie.firstAirDate != 'null'
+                                    ? widget.movie.firstAirDate!
+                                    : '',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
