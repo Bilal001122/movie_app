@@ -59,13 +59,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
               onPressed: () {
                 favoritesCubit.addAndDeleteHandling(widget.movie);
                 _controller.forward().then((value) => _controller.reverse());
-                Fluttertoast.showToast(
-                    msg: "Added Successfully",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 3,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
               },
               child: AnimatedBuilder(
                 animation: _controller,
