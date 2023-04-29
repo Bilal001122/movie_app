@@ -1,17 +1,53 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:math' show pi;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/const/colors.dart';
+import 'package:movie_app/logic/models/movie.dart';
+import 'package:movie_app/logic/services/bloc/favorites/favorites_cubit.dart';
+import 'package:movie_app/logic/services/bloc/favorites/favorites_state.dart';
 import 'package:movie_app/logic/services/bloc/home/home_bloc.dart';
 import 'package:movie_app/logic/services/bloc/home/home_states.dart';
-import 'package:movie_app/presentation/shared/widgets.dart';
+import 'package:movie_app/presentation/shared/widgets/custom_button.dart';
+import 'package:movie_app/presentation/shared/widgets/row_for_home.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  int generateRandomNumber() {
-    return Random().nextInt(5);
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+
+    _animation = Tween<double>(begin: 0, end: pi).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  String _getFirstMovieInUpComingMovies(List<MovieModel> upComingMovies) {
+    return upComingMovies[0].posterPath;
   }
 
   @override
@@ -52,20 +88,16 @@ class HomeScreen extends StatelessWidget {
                             bottomEnd: Radius.circular(50),
                             bottomStart: Radius.circular(50),
                           ),
-                          child: CachedNetworkImage(
-                            imageUrl: cubit
-                                        .upComingMovies[generateRandomNumber()]
-                                        .posterPath !=
-                                    null
-                                ? cubit.upComingMovies[generateRandomNumber()]
-                                    .posterPath!
-                                : 'https://cdn11.bigcommerce.com/s-'
-                                    'ydriczk/images/stencil/1280x1280/products'
-                                    '/89058/93685/Joker-2019-Final-Style-steps-Poster'
-                                    '-buy-original-movie-posters-at-starstills__62518'
-                                    '.1669120603.jpg?c=2',
-                            fit: BoxFit.cover,
-                          ),
+                          child: cubit.upComingMovies.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl: cubit.upComingMovies[0].posterPath,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Center(
+                                  child: CircularProgressIndicator(
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
                         ),
                       ),
                       Positioned(
@@ -110,17 +142,47 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  CustomButton(
-                                    label: 'Wishlist',
-                                    color: kGreyColor,
-                                    icon: Icons.add,
+                                children: [
+                                  BlocConsumer<FavoritesCubit, FavoritesState>(
+                                    listener: (context, state) {},
+                                    builder: (context, state) {
+                                      FavoritesCubit favoritesCubit =
+                                          FavoritesCubit.get(context);
+                                      return CustomButton(
+                                        label: 'Favorites',
+                                        color: kGreyColor,
+                                        icon: favoritesCubit.favoritesNames
+                                                    .contains(cubit
+                                                        .upComingMovies[0]
+                                                        .name) ||
+                                                favoritesCubit.favoritesNames
+                                                    .contains(cubit
+                                                        .upComingMovies[0]
+                                                        .title)
+                                            ? Icons.done
+                                            : Icons.add,
+                                        onPressed: () {
+                                          favoritesCubit.addAndDeleteHandling(
+                                              cubit.upComingMovies[0]);
+                                        },
+                                      );
+                                    },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   CustomButton(
-                                      label: 'Details', color: kPrimaryColor),
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          '/movie_detail',
+                                          arguments: {
+                                            'movie': cubit.upComingMovies[0],
+                                            'textLabelCategorie': 'Top Rated',
+                                          });
+                                    },
+                                    label: 'Details',
+                                    color: kPrimaryColor,
+                                  ),
                                 ],
                               ),
                             ],
@@ -140,11 +202,29 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: IconButton(
                           onPressed: () {
+                            _animationController.forward();
+                            if (_animationController.isCompleted) {
+                              _animationController.reset();
+                            }
                             cubit.changeModeTheme();
+                            _animationController.forward();
                           },
-                          icon: Icon(
-                            cubit.isDark ? Icons.sunny : Icons.nightlight_round,
-                            color: cubit.isDark ? kPrimaryColor : kDarkColor,
+                          icon: AnimatedBuilder(
+                            animation: _animationController,
+                            builder: (context, child) {
+                              return Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.identity()
+                                  ..rotateY(
+                                    _animation.value,
+                                  ),
+                                child: Icon(
+                                  Icons.sunny,
+                                  color:
+                                      cubit.isDark ? kPrimaryColor : kDarkColor,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/logic/services/bloc/favorites/favorites_cubit.dart';
 import 'package:movie_app/logic/services/bloc/favorites/favorites_state.dart';
-import 'package:movie_app/presentation/shared/widgets.dart';
+import 'package:movie_app/presentation/shared/widgets/movie_widget_for_search.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);

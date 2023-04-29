@@ -44,7 +44,7 @@ class ActorsScreen extends StatelessWidget {
                               case HeroFlightDirection.push:
                                 return ScaleTransition(
                                   scale: animation.drive(
-                                    Tween<double>(begin: 0.0, end: 1.3).chain(
+                                    Tween<double>(begin: 0.0, end: 1.0).chain(
                                       CurveTween(curve: Curves.decelerate),
                                     ),
                                   ),
@@ -53,7 +53,7 @@ class ActorsScreen extends StatelessWidget {
                               case HeroFlightDirection.pop:
                                 return ScaleTransition(
                                   scale: animation.drive(
-                                    Tween<double>(begin: 1.3, end: 0.0).chain(
+                                    Tween<double>(begin: 1.0, end: 0.0).chain(
                                       CurveTween(curve: Curves.decelerate),
                                     ),
                                   ),

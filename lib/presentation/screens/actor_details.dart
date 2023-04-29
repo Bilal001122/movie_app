@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/models/movie.dart';
-import 'package:movie_app/presentation/shared/widgets.dart';
+import 'package:movie_app/presentation/shared/widgets/movie_widget.dart';
 
 import '../../logic/models/actor_model.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movie_app/logic/models/movie.dart';
 import 'package:movie_app/logic/services/bloc/favorites/favorites_state.dart';
 import 'package:movie_app/logic/services/database.dart';
@@ -77,12 +78,28 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       for (var element in favorites) {
         if (element.name == movie.name && (movie.name != null)) {
           await deleteFromFavorites(movie);
+          Fluttertoast.showToast(
+              msg: "Deleted Successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
           color = Colors.white;
           emit(ChangeColorSuccess());
           break;
         }
         if (element.title == movie.title && (movie.title != null)) {
           await deleteFromFavorites(movie);
+          Fluttertoast.showToast(
+              msg: "Deleted Successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
           color = Colors.white;
           emit(ChangeColorSuccess());
           break;
@@ -92,6 +109,14 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       if (list.contains(movie.name) == false &&
           list.contains(movie.title) == false) {
         await addToFavorites(movie);
+        Fluttertoast.showToast(
+            msg: "Added Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
         color = Colors.red;
         emit(ChangeColorSuccess());
       }

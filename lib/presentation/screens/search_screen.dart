@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/services/bloc/search/search_bloc.dart';
 import 'package:movie_app/logic/services/bloc/search/search_states.dart';
-import 'package:movie_app/presentation/shared/widgets.dart';
+import 'package:movie_app/presentation/shared/widgets/movie_widget_for_search.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);

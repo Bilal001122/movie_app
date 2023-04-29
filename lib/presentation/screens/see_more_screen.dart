@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/logic/models/movie.dart';
-import 'package:movie_app/presentation/shared/widgets.dart';
+import 'package:movie_app/presentation/shared/widgets/movie_widget.dart';
 
 
 class SeeMoreScreen extends StatelessWidget {

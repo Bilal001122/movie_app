@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movie_app/const/colors.dart';
 import 'package:movie_app/logic/models/movie.dart';
 import '../../logic/services/bloc/favorites/favorites_cubit.dart';
@@ -58,6 +59,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
               onPressed: () {
                 favoritesCubit.addAndDeleteHandling(widget.movie);
                 _controller.forward().then((value) => _controller.reverse());
+                Fluttertoast.showToast(
+                    msg: "Added Successfully",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 3,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
               },
               child: AnimatedBuilder(
                 animation: _controller,
@@ -74,7 +82,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
               ),
             ),
             body: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -178,13 +185,27 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
                                                 .substring(0, 25)
                                             : widget.movie.title != null &&
                                                     widget.movie.title != 'null'
-                                                ? widget.movie.title! : widget.movie.originalTitle != null &&
-                                                        widget.movie.originalTitle != 'null'
-                                                    ? widget.movie.originalTitle! : widget.movie.name != null &&
-                                                            widget.movie.name != 'null'
-                                                        ? widget.movie.name! : widget.movie.originalName != null &&
-                                                                widget.movie.originalName != 'null'
-                                                            ? widget.movie.originalName! : '',
+                                                ? widget.movie.title!
+                                                : widget.movie.originalTitle !=
+                                                            null &&
+                                                        widget.movie
+                                                                .originalTitle !=
+                                                            'null'
+                                                    ? widget
+                                                        .movie.originalTitle!
+                                                    : widget.movie.name !=
+                                                                null &&
+                                                            widget.movie.name !=
+                                                                'null'
+                                                        ? widget.movie.name!
+                                                        : widget.movie.originalName !=
+                                                                    null &&
+                                                                widget.movie
+                                                                        .originalName !=
+                                                                    'null'
+                                                            ? widget.movie
+                                                                .originalName!
+                                                            : '',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
@@ -209,9 +230,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen>
                           Row(
                             children: [
                               Text(
-                                '${widget.movie.voteAverage is num ? widget.movie.voteAverage.toString() : double.parse(
+                                '${widget.movie.voteAverage is num ? (widget.movie.voteAverage).toStringAsFixed(1) : double.parse(
                                     widget.movie.voteAverage,
-                                  ).toString()} ',
+                                  ).toStringAsFixed(1)} ',
+                                // (widget.movie.voteAverage as double).toStringAsFixed(1),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
